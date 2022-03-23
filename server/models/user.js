@@ -22,12 +22,12 @@ const userSchema = mongoose.Schema({
     resetpasswordexpire:Date,   
 
 })
-userschema.index({ email: 1}, { unique: true })
+userSchema.index({ email: 1}, { unique: true })
 userSchema.pre("save",async function (next){
-    if(!this.isModiefied("password")){
+    if(!this.isModified("password")){
         next();
     }
-    const salt = bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password,salt)
     next();
 })
@@ -40,5 +40,5 @@ userSchema.methods.getsignedtoken = function(){
 
 }
 const users = mongoose.model("users",userSchema);
-users.createIndexes()
+// users.createIndexes()
 export default users;
