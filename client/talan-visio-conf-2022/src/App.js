@@ -11,6 +11,7 @@ import CalendarPanel from './components/CalendarPanel'
 import EventsPanel from './components/EventsPanel'
 import NotificationsPanel from './components/NotificationsPanel'
 import SettingsPanel from './components/SettingsPanel'
+import FilesPanel from './components/FilesPanel'
 
 
 
@@ -27,10 +28,10 @@ function App() {
       <div className="App">
         <Router>
           <Routes>
-            <Route path='/home' element={<ProtectedRoute isAuth={isAuth}><Sidebar><CalendarPanel /></Sidebar></ProtectedRoute>} />
-            <Route path='/trending' element={<ProtectedRoute isAuth={isAuth}><Sidebar><EventsPanel /></Sidebar></ProtectedRoute>} />
-            <Route path='/explore' element={<ProtectedRoute isAuth={isAuth}><Sidebar><NotificationsPanel /></Sidebar></ProtectedRoute>} />
-            <Route path='/favori' element={<ProtectedRoute isAuth={isAuth}><Sidebar><FilesPanel /></Sidebar></ProtectedRoute>} />
+            <Route path='/' element={<ProtectedRoute isAuth={isAuth}><Sidebar><CalendarPanel /></Sidebar></ProtectedRoute>} />
+            <Route path='/events' element={<ProtectedRoute isAuth={isAuth}><Sidebar><EventsPanel /></Sidebar></ProtectedRoute>} />
+            <Route path='/notifications' element={<ProtectedRoute isAuth={isAuth}><Sidebar><NotificationsPanel /></Sidebar></ProtectedRoute>} />
+            <Route path='/files' element={<ProtectedRoute isAuth={isAuth}><Sidebar><FilesPanel /></Sidebar></ProtectedRoute>} />
             <Route path='/settings' element={<ProtectedRoute isAuth={isAuth}><Sidebar><SettingsPanel /></Sidebar></ProtectedRoute>} />
 
 

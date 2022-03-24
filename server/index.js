@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors"
 import authrouter from "./routes/auth.js"
+import errorHandler from "./middlewares/errorHandler.js";
 const app = express();
 app.use(bodyParser.json({limit:"30mb",extended:true}));
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}));
@@ -15,6 +16,7 @@ app.use("/",(req,res) => { res.status(201).json({
 })
 return
 })
+app.use(errorHandler)
 const PORT = process.env.PORT || 5000 ;
 // fixer lien mongo
 const CONNEXION_URL = "mongodb+srv://pfeuser:pfeuser@cluster0.trqml.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"

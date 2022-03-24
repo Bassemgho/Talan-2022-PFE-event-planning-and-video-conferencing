@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
         minlength:6,
         select:false,
     },
+    role:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"roles"
+    },
     resetpasswordtoken:'String',
     resetpasswordexpire:Date,   
 

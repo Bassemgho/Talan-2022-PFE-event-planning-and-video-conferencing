@@ -3,6 +3,7 @@ import "./Signin.css"
 import img from '../../assets/loginim.png'
 import Sidebar from "../Dashboard/Components/SideBar";
 import { Box ,Container,Flex, HStack , Heading,Text,Input,Stack,FormControl,FormLabel,Button} from "@chakra-ui/react";
+import { sendcreds } from "../../services/user";
 const Signin = ({setAuth}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("")
@@ -12,6 +13,7 @@ const Signin = ({setAuth}) => {
         backgroundcolor:"white",
         width:"500px"
     }
+    
     const handleChange = (e) => {
         if(e.target.id=="password"){
             setPassword(e.target.value)
@@ -20,9 +22,24 @@ const Signin = ({setAuth}) => {
         }
     }
     //dont forget async
-    const handleSubmit = (e) => {
+    const  handleSubmit = async (e) => {
         e.preventDefault();
-        setAuth(true)
+        try {
+            let data = await sendcreds(email,password)
+            console.log(data)
+        let token = data.data.token;
+        localStorage.setItem("token",token)
+        if(token){
+            setAuth(true)
+        }
+        else{
+            alert("youre credentials are wrong")
+        }
+        } catch (error) {
+            console.log(error.message)
+        }
+        
+        
 
     }
     return(

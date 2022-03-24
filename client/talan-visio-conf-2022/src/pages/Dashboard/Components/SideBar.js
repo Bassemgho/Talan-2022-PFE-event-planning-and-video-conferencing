@@ -30,10 +30,10 @@ import Signin from '../../Signin/Signin'
 
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome,path:"/",component:<Dashboard name/> },
-  { name: 'Trending', icon: FiTrendingUp ,path:"/trending"},
-  { name: 'Explore', icon: FiCompass ,path:"/explore"},
-  { name: 'Favourites', icon: FiStar ,path:"/favori"},
+  { name: 'Home', icon: FiHome,path:"/",},
+  { name: 'Events', icon: FiTrendingUp ,path:"/events"},
+  { name: 'Notifications', icon: FiCompass ,path:"/notifications"},
+  { name: 'Files', icon: FiStar ,path:"/files"},
   { name: 'Settings', icon: FiSettings,path:"/settings" },
 ];
 
