@@ -1,11 +1,14 @@
 import React, { ReactNode } from 'react';
-import { Link,useLocation } from 'react-router-dom';
-
+import {Link,} from 'react-router-dom'
+import { Navigate } from 'react-router';
 import {
   IconButton,
+  Avatar,
   Box,
   CloseButton,
   Flex,
+  HStack,
+  VStack,
   Icon,
   useColorModeValue,
   Drawer,
@@ -14,6 +17,11 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -22,38 +30,34 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
+  FiBell,
+  FiChevronDown,
 } from 'react-icons/fi';
-// import { IconType } from 'react-icons';
+import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-import Dashboard from '../Dashboard';
-import Signin from '../../Signin/Signin'
 
 
-const LinkItems = [
-  { name: 'Home', icon: FiHome,path:"/",},
-  { name: 'Events', icon: FiTrendingUp ,path:"/events"},
-  { name: 'Notifications', icon: FiCompass ,path:"/notifications"},
-  { name: 'Files', icon: FiStar ,path:"/files"},
-  { name: 'Settings', icon: FiSettings,path:"/settings" },
-];
+// const LinkItems = [
+//   { name: 'Home', icon: FiHome },
+//   { name: 'Trending', icon: FiTrendingUp },
+//   { name: 'Explore', icon: FiCompass },
+//   { name: 'Favourites', icon: FiStar },
+//   { name: 'Settings', icon: FiSettings },
+// ];
 
-export default function Sidebar({ children }) {
-  const location = useLocation()
-  console.log(location.pathname)
-  // LinkItems.map((link,index)=>{
-  //   if(link.path==location.pathname){
-      
-  //     children = link.component
-  //     console.log(children)
-  //   }
-  // })
-
+export default function Sidebar({setAuth,LinkItems,children,}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const logout = () => { 
+    localStorage.removeItem("auth")
+    setAuth(false) 
+    return (<Navigate to="/Signin"/>)
+  }
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
+        LinkItems={LinkItems}
       />
       <Drawer
         autoFocus={false}
@@ -64,13 +68,14 @@ export default function Sidebar({ children }) {
         onOverlayClick={onClose}
         size="full">
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent 
+        LinkItems={LinkItems}
+          onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box bg="yellow.100" ml={{ base: 0, md: 60 }} p="4">
-        {/* <Signin/> */}
+      <MobileNav logout={logout} onOpen={onOpen} />
+      <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
     </Box>
@@ -79,9 +84,10 @@ export default function Sidebar({ children }) {
 
 
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({ LinkItems,onClose, ...rest }) => {
   return (
     <Box
+      transition="3s ease"
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
@@ -96,7 +102,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem to={link.path} key={link.name} icon={link.icon}>
+        <NavItem to={link.path}  key={link.name} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
@@ -105,7 +111,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 
-const NavItem = ({ icon, children, to,...rest }) => {
+const NavItem = ({ to ,icon, children, ...rest }) => {
   return (
     <Link to={to} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -137,28 +143,81 @@ const NavItem = ({ icon, children, to,...rest }) => {
 };
 
 
-const MobileNav = ({ onOpen, ...rest }) => {
+const MobileNav = ({ logout,onOpen, ...rest }) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
+      px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent="flex-start"
+      justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}>
       <IconButton
-        variant="outline"
+        display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
+        variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+      <Text
+        display={{ base: 'flex', md: 'none' }}
+        fontSize="2xl"
+        fontFamily="monospace"
+        fontWeight="bold">
         Logo
       </Text>
+
+      <HStack spacing={{ base: '0', md: '6' }}>
+        <IconButton
+          size="lg"
+          variant="ghost"
+          aria-label="open menu"
+          icon={<FiBell />}
+        />
+        <Flex alignItems={'center'}>
+          <Menu>
+            <MenuButton
+              py={2}
+              transition="all 0.3s"
+              _focus={{ boxShadow: 'none' }}>
+              <HStack>
+                <Avatar
+                  size={'sm'}
+                  src={
+                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                  }
+                />
+                <VStack
+                  display={{ base: 'none', md: 'flex' }}
+                  alignItems="flex-start"
+                  spacing="1px"
+                  ml="2">
+                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="xs" color="gray.600">
+                    Admin
+                  </Text>
+                </VStack>
+                <Box display={{ base: 'none', md: 'flex' }}>
+                  <FiChevronDown />
+                </Box>
+              </HStack>
+            </MenuButton>
+            <MenuList
+              bg={useColorModeValue('white', 'gray.900')}
+              borderColor={useColorModeValue('gray.200', 'gray.700')}>
+              <MenuItem>Profile</MenuItem>
+              <MenuItem>Settings</MenuItem>
+              <MenuItem>Billing</MenuItem>
+              <MenuDivider />
+              <MenuItem ><Link to="/" onClick={logout}>Sign out</Link></MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
+      </HStack>
     </Flex>
   );
 };

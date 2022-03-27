@@ -1,10 +1,21 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import "./Signin.css"
 import img from '../../assets/loginim.png'
 import Sidebar from "../Dashboard/Components/SideBar";
 import { Box ,Container,Flex, HStack , Heading,Text,Input,Stack,FormControl,FormLabel,Button} from "@chakra-ui/react";
 import { sendcreds } from "../../services/user";
+import { Navigate } from "react-router";
+import Cookies from 'js-cookies'
 const Signin = ({setAuth}) => {
+    useEffect(() => { 
+        try {
+            const auth = localStorage.getItem("auth")
+            setAuth(auth)
+            
+        } catch (error) {
+            console.log(error.message)
+        }
+     },[])
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("")
     const property = {
@@ -28,9 +39,11 @@ const Signin = ({setAuth}) => {
             let data = await sendcreds(email,password)
             console.log(data)
         let token = data.data.token;
-        localStorage.setItem("token",token)
+        
         if(token){
             setAuth(true)
+            localStorage.setItem("token",token)
+            localStorage.setItem("auth",true)
         }
         else{
             alert("youre credentials are wrong")
@@ -76,6 +89,7 @@ const Signin = ({setAuth}) => {
                             <Input id="password" type="password" onChange={handleChange} placeholder='Type your password' size='md' width="400px"/>
                             </Stack>
                             <Button  marginTop="20px" alignSelf="center" width="150px" borderRadius="10px" colorScheme="purple" onClick={handleSubmit}>Sign in</Button>
+                            <Button onClick={ ()=>{setAuth(true);localStorage.setItem("auth",true)} }>Without log</Button>
                         </FormControl>
                         
                     </Stack>

@@ -4,10 +4,10 @@ const ProtectedRoute = ({isAuth,children,...rest}) => {
    if(!isAuth){
        return(
            
-        <Navigate to='/'/>
+        <Navigate to='/Signin'/>
        )
    }
- 
+   
    return(
 
        children

@@ -10,7 +10,7 @@ import {
     ModalCloseButton,
     Button,FormControl,Input,Stack,Flex,FormLabel
   } from '@chakra-ui/react'
-import { adduser } from '../services/user';
+import { adduser } from '../../services/user';
 
 export default function () {
     const [email,setEmail] = useState("")
@@ -25,12 +25,14 @@ export default function () {
         }
     }
     const handleClick = async (e) => {
-        onClose();
+        
         try {
             await adduser(email,password)
+            alert("operation successful")
         } catch (error) {
             console.log(error.message)
         }
+        onClose();
         
     }
 
@@ -41,6 +43,9 @@ export default function () {
             <ModalOverlay/>
             <ModalContent>
                 <ModalCloseButton/>
+                <ModalHeader>
+                    Add a new user
+                </ModalHeader>
                 <ModalBody>
                     <FormControl>
                         <Stack spacing={2}>

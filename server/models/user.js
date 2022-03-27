@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
         minlength:6,
         select:false,
     },
+    avatar:{
+        type:"String",
+        
+    },
     role:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"roles"
