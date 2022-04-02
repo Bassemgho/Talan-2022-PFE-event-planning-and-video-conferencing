@@ -18,6 +18,16 @@ const userSchema = mongoose.Schema({
         minlength:6,
         select:false,
     },
+    firstname:{
+        type:'String',
+        required:[true,"please provide a firstname"],
+
+    },
+    lastname:{
+        type:'String',
+        required:[true,"please provide last name"],
+
+    },
     avatar:{
         type:"String",
         
@@ -28,7 +38,11 @@ const userSchema = mongoose.Schema({
     },
     resetpasswordtoken:'String',
     resetpasswordexpire:Date,   
-
+    active:{
+        type:"Boolean",
+        default:false
+    }
+//activate
 })
 userSchema.index({ email: 1}, { unique: true })
 userSchema.pre("save",async function (next){
@@ -45,6 +59,15 @@ userSchema.methods.matchpasswords = async function(password){
 }
 userSchema.methods.getsignedtoken = function(){
     return jwt.sign({id:this._id},"secretcode",{expiresIn:"60min"})
+
+}
+userSchema.methods.generateResetToken = function(){
+    let secret = "secretcode"
+    this.resetpasswordtoken = jwt.sign({id:this._id,email:this.email},secret,{expiresIn:'2880min'})
+    this.save();
+    return this.resetpasswordtoken
+    
+
 
 }
 const users = mongoose.model("users",userSchema);

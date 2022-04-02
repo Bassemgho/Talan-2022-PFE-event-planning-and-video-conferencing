@@ -5,11 +5,13 @@ const errorHandler = (err,req,res,next) => {
     if(err.code==11000){
         const message = "Duplicate key values";
         error = new errorResponse(message,404);
+        console.log("Duplicate key values")
 
     }
     if(err.name === "ValidationError"){
         const message = Object.values(err.errors).map((val) => { val.message })
         error = new errorResponse(message,404);
+        console.log("ValidationError")
 
     }
     console.log(error.message)

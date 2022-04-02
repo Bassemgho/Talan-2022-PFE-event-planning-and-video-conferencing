@@ -2,11 +2,12 @@ import React,{useEffect, useState} from "react";
 import "./Signin.css"
 import img from '../../assets/loginim.png'
 import Sidebar from "../Dashboard/Components/SideBar";
-import { Box ,Container,Flex, HStack , Heading,Text,Input,Stack,FormControl,FormLabel,Button} from "@chakra-ui/react";
+import { Box ,Container,Flex, HStack , Heading,Text,Input,Stack,FormControl,FormLabel,Button,Link as Clink} from "@chakra-ui/react";
 import { sendcreds } from "../../services/user";
-import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
+// import { Navigate } from "react-router";
 import Cookies from 'js-cookies'
-const Signin = ({setAuth}) => {
+const Signin = ({setAuth,setAdmin}) => {
     useEffect(() => { 
         try {
             const auth = localStorage.getItem("auth")
@@ -47,7 +48,14 @@ const Signin = ({setAuth}) => {
         }
         else{
             alert("youre credentials are wrong")
+            return
         }
+        if(data.data.role=="admin"){
+            localStorage.setItem("admin",true)
+
+            setAdmin(true)
+        }
+        
         } catch (error) {
             console.log(error.message)
         }
@@ -64,6 +72,8 @@ const Signin = ({setAuth}) => {
         overflow='hidden'
         bg="white"
          >
+      <style>{'body{background-color:rgb(130, 61, 199);}'}</style>
+
              
             <Flex bg="yellow" overflow="hidden">
                 <Box className="imagelogin">
@@ -89,9 +99,9 @@ const Signin = ({setAuth}) => {
                             <Input id="password" type="password" onChange={handleChange} placeholder='Type your password' size='md' width="400px"/>
                             </Stack>
                             <Button  marginTop="20px" alignSelf="center" width="150px" borderRadius="10px" colorScheme="purple" onClick={handleSubmit}>Sign in</Button>
-                            <Button onClick={ ()=>{setAuth(true);localStorage.setItem("auth",true)} }>Without log</Button>
+                            {/* <Button onClick={ ()=>{setAuth(true);localStorage.setItem("auth",true)} }>Without log</Button> */}
                         </FormControl>
-                        
+                        <Clink marginRight={5} size='sm' alignSelf='end' ><Link to='/auth/forgotpassword'> forgot password</Link> </Clink>
                     </Stack>
                 </Box>
             </Flex>

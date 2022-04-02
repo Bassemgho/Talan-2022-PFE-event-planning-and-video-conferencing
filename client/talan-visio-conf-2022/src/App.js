@@ -14,6 +14,8 @@ import NotificationsPanel from './components/NotificationsPanel'
 // import SettingsPanel from './components/SettingsPanel'
 import FilesPanel from './components/FilesPanel'
 import jsCookies from 'js-cookies';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import VerifyToken from './pages/VerifyToken/VerifyToken';
 
 
 
@@ -22,15 +24,23 @@ import jsCookies from 'js-cookies';
 function App() {
   
   const [isAuth, setAuth] = useState(false)
+  const [isAdmin, setAdmin] = useState(false)
+
   // useEffect(() => {
   //   <Navigate to="/home"/> 
   //  },[])
   useEffect(() => { 
     let auth
+    let admin
     try {
        auth = localStorage.getItem("auth")
+       admin = localStorage.getItem("admin")
       if(auth){
         setAuth(true)
+
+      }
+      if(admin){
+        setAdmin(true)
       }
     } catch (error) {
       console.log(error.message)
@@ -55,7 +65,9 @@ return(
   <Router>
     <Routes>
       <Route path='/' element={<Navigate to="/signin"/>}/>
-      <Route path='/signin' element={<Signin setAuth={setAuth} />} />
+      <Route path='/signin' element={<Signin setAdmin={setAdmin} setAuth={setAuth} />} />
+      <Route path='/auth/forgotpassword' element={<ForgotPassword/>} />
+      <Route path='/auth/resetpassword/:token' element={<VerifyToken/>} />
     </Routes>
   </Router>
 )

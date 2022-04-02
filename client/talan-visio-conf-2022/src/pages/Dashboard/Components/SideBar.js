@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode,useState,useEffect } from 'react';
 import {Link,} from 'react-router-dom'
 import { Navigate } from 'react-router';
 import {
@@ -49,6 +49,8 @@ export default function Sidebar({setAuth,LinkItems,children,}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const logout = () => { 
     localStorage.removeItem("auth")
+    localStorage.removeItem("admin")
+
     setAuth(false) 
     return (<Navigate to="/Signin"/>)
   }
@@ -88,7 +90,7 @@ const SidebarContent = ({ LinkItems,onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg = 'purple'
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
@@ -96,13 +98,13 @@ const SidebarContent = ({ LinkItems,onClose, ...rest }) => {
       h="full"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" color='white'>
           Logo
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem to={link.path}  key={link.name} icon={link.icon}>
+        <NavItem color='white' to={link.path}  key={link.name} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
@@ -213,7 +215,7 @@ const MobileNav = ({ logout,onOpen, ...rest }) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem ><Link to="/" onClick={logout}>Sign out</Link></MenuItem>
+              <MenuItem ><Link to="/signin" onClick={logout}>Sign out</Link></MenuItem>
             </MenuList>
           </Menu>
         </Flex>
