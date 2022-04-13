@@ -9,7 +9,7 @@ import Signin from './pages/Signin/Signin';
 // import Dashboard from './pages/Dashboard/Dashboard';
 
 import CalendarPanel from './components/CalendarPanel/CalendarPanel'
-import EventsPanel from './components/EventsPanel'
+import EventsPanel from './components/EventsPanel/EventsPanel'
 import NotificationsPanel from './components/NotificationsPanel'
 // import SettingsPanel from './components/SettingsPanel'
 import FilesPanel from './components/FilesPanel'
@@ -35,13 +35,14 @@ function App() {
     try {
        auth = localStorage.getItem("auth")
        admin = localStorage.getItem("admin")
+       if(admin){
+        setAdmin(true)
+      }
       if(auth){
         setAuth(true)
 
       }
-      if(admin){
-        setAdmin(true)
-      }
+      
     } catch (error) {
       console.log(error.message)
     }
@@ -51,7 +52,7 @@ if(isAuth){
   return (
     <div className="App">
       <Router>
-      <Dashboard setAuth={setAuth} isAuth={isAuth} isAdmin={false}/>
+      <Dashboard setAuth={setAuth} isAuth={isAuth} isAdmin={isAdmin}/>
         {/* <Routes>
           <Route path='/Signin' element={<Signin setAuth={setAuth}/>}/>
       

@@ -49,6 +49,8 @@ export default function Sidebar({setAuth,LinkItems,children,}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const logout = () => { 
     localStorage.removeItem("auth")
+    localStorage.removeItem("token")
+
     localStorage.removeItem("admin")
 
     setAuth(false) 

@@ -15,7 +15,7 @@ import {
 import Sidebar from "./Components/SideBar.js";
 
 import CalendarPanel from '../../components/CalendarPanel/CalendarPanel'
-import EventsPanel from '../../components/EventsPanel'
+import EventsPanel from '../../components/EventsPanel/EventsPanel'
 import NotificationsPanel from '../../components/NotificationsPanel'
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel'
 import FilesPanel from '../../components/FilesPanel'

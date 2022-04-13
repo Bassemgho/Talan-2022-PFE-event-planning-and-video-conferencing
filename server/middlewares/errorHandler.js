@@ -14,8 +14,8 @@ const errorHandler = (err,req,res,next) => {
         console.log("ValidationError")
 
     }
-    console.log(error.message)
-    res.status(error.cod).json({success:false,message:error.message||"server error"})
+    console.log(err.message)
+    res.status(error.cod).json({success:false,message:err.message||"server error"})
 
  }
  export default errorHandler;

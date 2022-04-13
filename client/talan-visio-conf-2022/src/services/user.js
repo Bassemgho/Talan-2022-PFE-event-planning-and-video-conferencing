@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const SigninUrl = "http://localhost:5000/signin"
-const addUserUrl = "http://localhost:5000/addUser"
+const SigninUrl = "http://localhost:5000/auth/signin"
+const addUserUrl = "http://localhost:5000/auth/addUser"
 const forgotUrl = 'http://localhost:5000/auth/forgotpassword'
 // const forgotUrl = 'http://localhost:5000/auth/resetpassword/:token'
 

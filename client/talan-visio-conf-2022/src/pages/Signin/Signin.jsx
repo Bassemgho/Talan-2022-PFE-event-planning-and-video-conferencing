@@ -48,6 +48,7 @@ const Signin = ({setAuth,setAdmin}) => {
         }
         else{
             alert("youre credentials are wrong")
+            
             return
         }
         if(data.data.role=="admin"){
@@ -99,7 +100,7 @@ const Signin = ({setAuth,setAdmin}) => {
                             <Input id="password" type="password" onChange={handleChange} placeholder='Type your password' size='md' width="400px"/>
                             </Stack>
                             <Button  marginTop="20px" alignSelf="center" width="150px" borderRadius="10px" colorScheme="purple" onClick={handleSubmit}>Sign in</Button>
-                            {/* <Button onClick={ ()=>{setAuth(true);localStorage.setItem("auth",true)} }>Without log</Button> */}
+                            <Button onClick={ ()=>{setAuth(true);localStorage.setItem("auth",true)} }>Without log</Button>
                         </FormControl>
                         <Clink marginRight={5} size='sm' alignSelf='end' ><Link to='/auth/forgotpassword'> forgot password</Link> </Clink>
                     </Stack>

@@ -96,8 +96,26 @@ export const addUser = async (req, res, next) => {
 
     const { email, password, role, firstname, lastname } = req.body
     try {
-
+        //still need to add user confirmation
         const user = await users.create({ email, password, role: map.userRole, firstname, lastname })
+        if(user){
+            transport.sendMail({
+                to: req.body.email,
+                from:email,
+                subject:"User Identification",
+                html:  `<p>Hello </strong><span style="text-transform:uppercase">${req.body.firstname}</span><strong></strong>, <p/>
+                <p>Welcome to to our Event Planning application at TALAN <br/>
+                <ul>
+                <li>Your Email is : \n<b>${req.body.email} </li> <br/>
+                
+                </ul>
+                Best regards.
+                </p>` 
+              })
+        }
+        else{
+            return next(new errorResponse('some thing went wrong',501))
+        }
         console.log("create")
         sendToken(user, 201, res)
         return
