@@ -30,14 +30,17 @@ const userSchema = mongoose.Schema({
     },
     avatar:{
         type:"String",
-        
+
     },
     role:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"roles"
     },
-    resetpasswordtoken:'String',
-    resetpasswordexpire:Date,   
+    resetpasswordtoken:{
+      type:'String',
+      select:false
+    },
+    resetpasswordexpire:Date,
     active:{
         type:"Boolean",
         default:false
@@ -66,7 +69,7 @@ userSchema.methods.generateResetToken = function(){
     this.resetpasswordtoken = jwt.sign({id:this._id,email:this.email},secret,{expiresIn:'2880min'})
     this.save();
     return this.resetpasswordtoken
-    
+
 
 
 }

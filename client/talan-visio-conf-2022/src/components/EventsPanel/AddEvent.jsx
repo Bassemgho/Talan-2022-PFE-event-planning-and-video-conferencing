@@ -18,7 +18,7 @@ import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { add_event } from '../../services/admin.js';
 
-export default function AddEvent() {
+export default function AddEvent({refreshEvents}) {
   // const mods = props.mods
   const [startDate1, setStartDate1] = useState(new Date());
   const [startDate2, setStartDate2] = useState(new Date());
@@ -58,6 +58,7 @@ export default function AddEvent() {
 
       }
       setLoad(false)
+      refreshEvents()
     } catch (error) {
       setLoad(false)
       console.log(error.message)
@@ -80,7 +81,7 @@ export default function AddEvent() {
       <FormControl>
         <Stack alignItems="start" spacing={5}>
 
-          <Text>hii</Text>
+          <Text>Create a new Event</Text>
           <FormLabel htmlFor="title">Add title</FormLabel>
 
           <Input
@@ -152,8 +153,18 @@ export default function AddEvent() {
                 as={CalendarTodayIcon}
 
               />
-              <DatePicker selected={startDate1} onChange={(date) => setStartDate1(date)} />
-              <DatePicker selected={startDate2} onChange={(date) => setStartDate2(date)} />
+              <FormLabel htmlFor="datedebut">Start Date</FormLabel>
+
+              <DatePicker id='datedebut' selected={startDate1} onChange={(date) => setStartDate1(date)} />
+              <Icon
+                marginTop="8px"
+                marginRight="8px"
+                as={CalendarTodayIcon}
+
+              />
+              <FormLabel htmlFor="datefin">End Date</FormLabel>
+
+              <DatePicker id='datefin' selected={startDate2} onChange={(date) => setStartDate2(date)} />
               {/* <StyledEngineProvider injectFirst>
                 <LocalizationProvider  dateAdapter={AdapterDateFns}>
                   <StaticTimePicker the
@@ -195,7 +206,7 @@ export default function AddEvent() {
 
       <Alert margin={2} hidden={alertsuccess} status='success'>
         <AlertIcon />
-        Data uploaded to the server. Fire on!
+        Event Created successfulyy
       </Alert>
     </Box>
 

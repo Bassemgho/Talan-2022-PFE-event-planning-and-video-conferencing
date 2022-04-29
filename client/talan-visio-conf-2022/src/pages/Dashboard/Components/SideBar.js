@@ -1,6 +1,7 @@
 import React, { ReactNode,useState,useEffect } from 'react';
 import {Link,} from 'react-router-dom'
 import { Navigate } from 'react-router';
+import logo from '../../../assets/index.png'
 import {
   IconButton,
   Avatar,
@@ -35,7 +36,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-
+import Settings from "../../../assets/settings.png"
 
 // const LinkItems = [
 //   { name: 'Home', icon: FiHome },
@@ -47,13 +48,13 @@ import { ReactText } from 'react';
 
 export default function Sidebar({setAuth,LinkItems,children,}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const logout = () => { 
+  const logout = () => {
     localStorage.removeItem("auth")
     localStorage.removeItem("token")
 
     localStorage.removeItem("admin")
 
-    setAuth(false) 
+    setAuth(false)
     return (<Navigate to="/Signin"/>)
   }
   return (
@@ -72,7 +73,7 @@ export default function Sidebar({setAuth,LinkItems,children,}) {
         onOverlayClick={onClose}
         size="full">
         <DrawerContent>
-          <SidebarContent 
+          <SidebarContent
         LinkItems={LinkItems}
           onClose={onClose} />
         </DrawerContent>
@@ -92,7 +93,7 @@ const SidebarContent = ({ LinkItems,onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg = 'purple'
+      bg = 'purple.600'
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
@@ -117,7 +118,7 @@ const SidebarContent = ({ LinkItems,onClose, ...rest }) => {
 
 const NavItem = ({ to ,icon, children, ...rest }) => {
   return (
-    <Link to={to} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link to={to} style={{ textDecoration: 'none' }} _focus={{ boxShadow: '1' }}>
       <Flex
         align="center"
         p="4"
@@ -126,7 +127,7 @@ const NavItem = ({ to ,icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
+          bg: 'purple.400',
           color: 'white',
         }}
         {...rest}>
@@ -139,8 +140,11 @@ const NavItem = ({ to ,icon, children, ...rest }) => {
             }}
             as={icon}
           />
+
+
         )}
         {children}
+
       </Flex>
     </Link>
   );

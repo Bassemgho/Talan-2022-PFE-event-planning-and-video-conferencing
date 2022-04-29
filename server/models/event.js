@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 import users from './user.js'
+import rooms from './room.js'
 const eventSchema = mongoose.Schema({
     titre:{
         type:"String",
         required:[true,'please insert event title']
 
+    },
+    room:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'rooms'
     },
     dateDebut:{
         type:Date,
@@ -33,10 +38,20 @@ const eventSchema = mongoose.Schema({
 // eventSchema.pre('save',async function (next){
 //     if(this.isModified('participants')){
 //         const l = []
-//         this.participants.map((val,index) => { 
+//         this.participants.map((val,index) => {
 //             users.findOne
 //          })
 //     }
 // })
+eventSchema.post('save',async function (doc,next){
+  try {
+    const room = await rooms.create()
+    this.room = room._id
+    next()
+  } catch (e) {
+    next(e)
+  }
+
+})
 const events = mongoose.model('events',eventSchema)
 export default events;

@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import ListElement from './ListElement'
-import { Stack } from '@chakra-ui/react'
+import { HStack } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
+
 import {fetsh_all} from "../../services/admin"
 export default function UserListing({users,setusers}) {
   const data = [
@@ -16,9 +18,9 @@ export default function UserListing({users,setusers}) {
       } catch (error) {
         console.log(error.message)
       }
-      
+
     }
-  useEffect(() => { 
+  useEffect(() => {
     const fetshData = async (token) => {
       try {
         const all = await fetsh_all(token)
@@ -27,15 +29,22 @@ export default function UserListing({users,setusers}) {
           console.log(error.message)
         }
     }
-    fetshData(token);       
+    fetshData(token);
    },[])
   return (
-    <Stack spacing={5} >
-    {users.map((val,index) => { 
+    <Grid autoFlow templateColumns='repeat(5, 1fr)' gap={6}>
+    {users.map((val,index) => {
       return (
-        <ListElement key={index} name={val.email} job={(val.job)} />
+        <ListElement key={index} name={`${val.firstname||val.email} ${val.lastname||''}`} job={(val.job)} />
       )
      })}
-    </Stack>      
+</Grid>
+    // {/*<HStack overlow='hidden' spacing={5} >
+    // {users.map((val,index) => {
+    //   return (
+    //     <ListElement key={index} name={`${val.firstname||val.email} ${val.lastname||''}`} job={(val.job)} />
+    //   )
+    //  })}
+    // </HStack>*/}
   )
 }

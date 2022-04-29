@@ -20,6 +20,7 @@ import NotificationsPanel from '../../components/NotificationsPanel'
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel'
 import FilesPanel from '../../components/FilesPanel'
 import UsersPanel from "../../components/UsersPanel/UsersPanel.jsx";
+import Room from '../../components/Room/Room'
 
 
 const Dashboard = ({ setAuth,isAuth,isAdmin, ...rest }) => {
@@ -28,7 +29,6 @@ const Dashboard = ({ setAuth,isAuth,isAdmin, ...rest }) => {
 
     const UserLinkItems = [
         { name: 'Home', icon: FiHome, path: "/",component:<CalendarPanel/> },
-        { name: 'Events', icon: FiTrendingUp, path: "/events" ,component:<EventsPanel />},
         { name: 'Notifications', icon: FiCompass, path: "/notifications",component: <NotificationsPanel/> },
         { name: 'Files', icon: FiStar, path: "/files" ,component: <FilesPanel/>},
         { name: 'Settings', icon: FiSettings, path: "/settings",component:<SettingsPanel/> },
@@ -50,11 +50,12 @@ const Dashboard = ({ setAuth,isAuth,isAdmin, ...rest }) => {
     return (
         <>
             <Routes>
-                {LinkItems.map((link,index) => { 
+                {LinkItems.map((link,index) => {
                     return <Route key={index} path={link.path} element={<ProtectedRoute isAuth={isAuth}><Sidebar setAuth={setAuth} LinkItems={LinkItems}>{link.component}</Sidebar></ProtectedRoute>} />
 
                  })}
-                <Route path='/signin' element={<Navigate to="/"/>}/>
+                 <Route path='/signin' element={<Navigate to="/"/>}/>
+                <Route path='/rooms/:roomid' element={<Room/>}/>
 
                 {/* <Route path='/' element={<ProtectedRoute isAuth={isAuth}><Sidebar LinkItems={LinkItems}><CalendarPanel /></Sidebar></ProtectedRoute>} />
                 <Route path='/events' element={<ProtectedRoute isAuth={isAuth}><Sidebar LinkItems={LinkItems}><EventsPanel /></Sidebar></ProtectedRoute>} />
@@ -64,7 +65,7 @@ const Dashboard = ({ setAuth,isAuth,isAdmin, ...rest }) => {
 
 
             </Routes>
-            
+
         </>
     )
 }
